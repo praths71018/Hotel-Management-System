@@ -11,6 +11,8 @@ public class Customer {
     private String address;
     private int roomNumber;
 
+    private static final String COLLECTION_NAME = "customers";
+
     public Customer(String name, String id, String phoneNumber, String address, int roomNumber) {
         this.name = name;
         this.id = id;
@@ -20,8 +22,8 @@ public class Customer {
     }
 
     public void saveToDatabase() {
-        MongoDatabase database = MongoDBConnection.getConnection();
-        MongoCollection<Document> collection = database.getCollection("customers");
+        MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
+        MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
 
         Document customerDoc = new Document("name", name)
                 .append("id", id)
@@ -33,8 +35,8 @@ public class Customer {
     }
 
     public static Customer getCustomerByRoomNumber(int roomNumber) {
-        MongoDatabase database = MongoDBConnection.getConnection();
-        MongoCollection<Document> collection = database.getCollection("customers");
+        MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
+        MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
 
         Document query = new Document("roomNumber", roomNumber);
         Document customerDoc = collection.find(query).first();
@@ -51,12 +53,14 @@ public class Customer {
     }
 
     public static void deleteCustomerByRoomNumber(int roomNumber) {
-        MongoDatabase database = MongoDBConnection.getConnection();
-        MongoCollection<Document> collection = database.getCollection("customers");
+        MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
+        MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
 
         Document query = new Document("roomNumber", roomNumber);
         collection.deleteOne(query);
     }
+
+    // Getters and setters
 
     public String getName() {
         return name;
@@ -97,5 +101,5 @@ public class Customer {
     public void setRoomNumber(int roomNumber) {
         this.roomNumber = roomNumber;
     }
-// Other getters and setters
 }
+

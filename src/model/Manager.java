@@ -8,15 +8,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Manager {
+    private static final String COLLECTION_NAME = "managers";
+
+    private static Manager instance;
     private MongoCollection<Document> managerCollection;
 
-    public Manager() {
-        MongoDatabase database = MongoDBConnection.getConnection();
-        this.managerCollection = database.getCollection("managers");
+    // Private constructor to prevent instantiation outside this class
+    private Manager() {
+        MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
+        this.managerCollection = database.getCollection(COLLECTION_NAME);
+    }
+
+    // Method to provide access to the Manager instance
+    public static synchronized Manager getInstance() {
+        if (instance == null) {
+            instance = new Manager();
+        }
+        return instance;
     }
 
     public void updateInventoryItem(String itemName, int newQuantity) {
         // Method to update inventory item quantity
+        Document query = new Document("itemName", itemName);
+        Document update = new Document("$set", new Document("quantity", newQuantity));
+        managerCollection.updateOne(query, update);
     }
 
     public void recordComplaint(String receptionistName, String complaint) {
@@ -27,11 +42,12 @@ public class Manager {
 
     public List<Document> viewComplaints() {
         List<Document> complaints = new ArrayList<>();
-
         for (Document doc : managerCollection.find()) {
             complaints.add(doc);
         }
-
         return complaints;
     }
+
+    // Other methods if needed
+
 }

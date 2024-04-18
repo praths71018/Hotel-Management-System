@@ -10,7 +10,7 @@ public class FoodItemDAO {
     private MongoCollection<Document> foodItemCollection;
 
     public FoodItemDAO() {
-        MongoDatabase database = MongoDBConnection.getConnection();
+        MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
         this.foodItemCollection = database.getCollection("foodItems");
     }
 

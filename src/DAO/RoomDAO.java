@@ -10,7 +10,7 @@ public class RoomDAO {
     private MongoCollection<Document> roomCollection;
 
     public RoomDAO() {
-        MongoDatabase database = MongoDBConnection.getConnection();
+        MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
         this.roomCollection = database.getCollection("rooms");
     }
 

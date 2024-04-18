@@ -10,7 +10,7 @@ public class BillDAO {
     private MongoCollection<Document> billCollection;
 
     public BillDAO() {
-        MongoDatabase database = MongoDBConnection.getConnection();
+        MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
         this.billCollection = database.getCollection("bills");
     }
 

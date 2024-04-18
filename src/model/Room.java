@@ -21,7 +21,7 @@ public class Room {
     }
 
     public static Room getRoomByNumber(int roomNumber) {
-        MongoDatabase database = MongoDBConnection.getConnection();
+        MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
         MongoCollection<Document> collection = database.getCollection("rooms");
 
         Document query = new Document("roomNumber", roomNumber);
@@ -46,7 +46,7 @@ public class Room {
     }
 
     public void updateRoomStatusInDatabase() {
-        MongoDatabase database = MongoDBConnection.getConnection();
+        MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
         MongoCollection<Document> collection = database.getCollection("rooms");
 
         Document query = new Document("roomNumber", roomNumber);
@@ -55,7 +55,7 @@ public class Room {
     }
 
     public static List<Room> getAllAvailableRooms() {
-        MongoDatabase database = MongoDBConnection.getConnection();
+        MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
         MongoCollection<Document> collection = database.getCollection("rooms");
 
         List<Room> availableRooms = new ArrayList<>();
@@ -88,7 +88,7 @@ public class Room {
     }
 
     public int getPrice() {
-        System.out.println("Price:"+this.price);
+        System.out.println("Price:" + this.price);
         return this.price;
     }
 

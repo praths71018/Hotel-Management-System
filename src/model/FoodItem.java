@@ -8,40 +8,55 @@ public class FoodItem {
     private String foodName;
     private double price;
 
+    private static final String COLLECTION_NAME = "foodItems";
+
     public FoodItem(String foodName, double price) {
         this.foodName = foodName;
         this.price = price;
     }
 
     public void saveToDatabase() {
-        MongoDatabase database = MongoDBConnection.getConnection();
-        MongoCollection<Document> collection = database.getCollection("foodItems");
+        try {
+            MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
+            MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
 
-        Document foodItemDoc = new Document("foodName", foodName)
-                .append("price", price);
+            Document foodItemDoc = new Document("foodName", foodName)
+                    .append("price", price);
 
-        collection.insertOne(foodItemDoc);
+            collection.insertOne(foodItemDoc);
+        } catch (Exception e) {
+            System.err.println("Error saving food item to MongoDB: " + e.getMessage());
+        }
     }
 
     public static void deleteItem(String foodName) {
-        MongoDatabase database = MongoDBConnection.getConnection();
-        MongoCollection<Document> collection = database.getCollection("foodItems");
+        try {
+            MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
+            MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
 
-        Document query = new Document("foodName", foodName);
-        collection.deleteOne(query);
+            Document query = new Document("foodName", foodName);
+            collection.deleteOne(query);
+        } catch (Exception e) {
+            System.err.println("Error deleting food item from MongoDB: " + e.getMessage());
+        }
     }
 
     public static String getAllItems() {
-        MongoDatabase database = MongoDBConnection.getConnection();
-        MongoCollection<Document> collection = database.getCollection("foodItems");
+        try {
+            MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
+            MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
 
-        StringBuilder items = new StringBuilder();
-        for (Document doc : collection.find()) {
-            String foodName = doc.getString("foodName");
-            double price = doc.getDouble("price");
-            items.append(foodName).append(" - Price: $").append(price).append("\n");
+            StringBuilder items = new StringBuilder();
+            for (Document doc : collection.find()) {
+                String foodName = doc.getString("foodName");
+                double price = doc.getDouble("price");
+                items.append(foodName).append(" - Price: $").append(price).append("\n");
+            }
+            return items.toString();
+        } catch (Exception e) {
+            System.err.println("Error retrieving food items from MongoDB: " + e.getMessage());
+            return "";
         }
-        return items.toString();
     }
 
     public String getFoodName() {
@@ -59,5 +74,5 @@ public class FoodItem {
     public void setPrice(double price) {
         this.price = price;
     }
-// Other getters and setters
+    // Other getters and setters
 }

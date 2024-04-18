@@ -10,7 +10,7 @@ public class InventoryDAO {
     private MongoCollection<Document> inventoryCollection;
 
     public InventoryDAO() {
-        MongoDatabase database = MongoDBConnection.getConnection();
+        MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
         this.inventoryCollection = database.getCollection("inventory");
     }
 

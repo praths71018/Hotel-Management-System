@@ -11,6 +11,8 @@ public class Bill {
     private double totalAmount;
     private double roomAmount; // Represents the amount for the room
 
+    private static final String COLLECTION_NAME = "bills";
+
     public Bill(String customerName, double roomAmount) {
         this.customerName = customerName;
         this.roomAmount = roomAmount;
@@ -38,8 +40,8 @@ public class Bill {
 
     public void saveToMongoDB() {
         try {
-            MongoDatabase database = MongoDBConnection.getConnection();
-            MongoCollection<Document> collection = database.getCollection("bills");
+            MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
+            MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
             Document query = new Document("customerName", this.customerName);
             Document updateDoc = new Document("$set", new Document("totalAmount", this.totalAmount));
             collection.updateOne(query, updateDoc);

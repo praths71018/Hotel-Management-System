@@ -6,7 +6,7 @@ import org.bson.Document;
 
 public class Inventory {
     public static boolean addItem(String itemName, int quantity, double price) {
-        MongoDatabase database = MongoDBConnection.getConnection();
+        MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
         MongoCollection<Document> collection = database.getCollection("inventory");
 
         Document itemDoc = new Document("itemName", itemName)
@@ -17,7 +17,7 @@ public class Inventory {
     }
 
     public static void deleteItem(String itemName) {
-        MongoDatabase database = MongoDBConnection.getConnection();
+        MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
         MongoCollection<Document> collection = database.getCollection("inventory");
 
         Document query = new Document("itemName", itemName);
@@ -25,7 +25,7 @@ public class Inventory {
     }
 
     public static String getAllItems() {
-        MongoDatabase database = MongoDBConnection.getConnection();
+        MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
         MongoCollection<Document> collection = database.getCollection("inventory");
 
         StringBuilder items = new StringBuilder();
