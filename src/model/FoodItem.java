@@ -41,24 +41,6 @@ public class FoodItem {
         }
     }
 
-//    public static String getAllItems() {
-//        try {
-//            MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
-//            MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
-//
-//            StringBuilder items = new StringBuilder();
-//            for (Document doc : collection.find()) {
-//                String foodName = doc.getString("foodName");
-//                double price = doc.getDouble("price");
-//                items.append(foodName).append(" - Price: $").append(price).append("\n");
-//            }
-//            return items.toString();
-//        } catch (Exception e) {
-//            System.err.println("Error retrieving food items from MongoDB: " + e.getMessage());
-//            return "";
-//        }
-//    }
-
     public static String getAllItems() {
         StringBuilder items = new StringBuilder();
         FoodItemIterator iterator = new FoodItemIterator();

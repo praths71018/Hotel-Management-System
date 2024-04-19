@@ -616,5 +616,4 @@ public class HotelView4 extends JFrame implements ActionListener {
     public void setController(HotelController controller) {
         this.controller = controller;
     }
-
 }
