@@ -1,11 +1,9 @@
 package service;
 
 import model.Inventory;
-import java.util.List;
-
 public class InventoryService {
-    public boolean addItem(String itemName, int quantity, double price) {
-        return Inventory.addItem(itemName, quantity, price);
+    public boolean addItem(String itemName, int quantity) {
+        return Inventory.addItem(itemName, quantity);
     }
 
     public void deleteItem(String itemName) {

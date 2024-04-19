@@ -140,8 +140,8 @@ public class HotelController {
         return billService.generateBill(roomNumber);
     }
 
-    public void addInventoryItem(String itemName, int quantity, double price) {
-        inventoryService.addItem(itemName, quantity, price);
+    public void addInventoryItem(String itemName, int quantity) {
+        inventoryService.addItem(itemName, quantity);
     }
 
     public void deleteInventoryItem(String itemName) {

@@ -47,7 +47,4 @@ public class Manager {
         }
         return complaints;
     }
-
-    // Other methods if needed
-
 }

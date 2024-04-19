@@ -305,7 +305,7 @@ public class HotelView4 extends JFrame implements ActionListener {
                     try {
                         int quantity = Integer.parseInt(quantityStr);
                         if (quantity > 0) {
-                            controller.addInventoryItem(itemName, quantity, 0.0); // Default price as 0.0
+                            controller.addInventoryItem(itemName, quantity);
                             JOptionPane.showMessageDialog(managerWindow, "Item added to inventory.");
                         } else {
                             JOptionPane.showMessageDialog(managerWindow, "Quantity must be a positive integer.");
@@ -553,24 +553,6 @@ public class HotelView4 extends JFrame implements ActionListener {
 
         // Make the foodItemsFrame visible
         foodItemsFrame.setVisible(true);
-    }
-
-
-
-    private void displayRoomAvailability(JFrame parentFrame, boolean isRoomAvailable) {
-        JTextArea roomAvailabilityTextArea = new JTextArea(10, 30);
-        roomAvailabilityTextArea.setEditable(false);
-
-        if (isRoomAvailable) {
-            roomAvailabilityTextArea.append("Room is available.\n");
-        } else {
-            roomAvailabilityTextArea.append("Room is not available.\n");
-        }
-
-        JScrollPane scrollPane = new JScrollPane(roomAvailabilityTextArea);
-        parentFrame.add(scrollPane, BorderLayout.CENTER);
-        parentFrame.revalidate();
-        parentFrame.repaint();
     }
 
 
