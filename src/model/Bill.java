@@ -2,6 +2,7 @@ package model;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
 
 public class Bill {
@@ -27,12 +28,31 @@ public class Bill {
             Document updateDoc = new Document("$set", new Document("roomAmount", this.roomAmount)
                     .append("foodOrdersAmount", this.foodOrdersAmount)
                     .append("totalAmount", this.totalAmount));
-            collection.updateOne(query, updateDoc);
+
+            // Use updateOne with upsert option set to true
+            UpdateOptions options = new UpdateOptions().upsert(true);
+            collection.updateOne(query, updateDoc, options);
+
+            System.out.println("Bill saved to MongoDB successfully.");
         } catch (Exception e) {
             System.err.println("Error saving bill to MongoDB: " + e.getMessage());
         }
     }
 
+    public static void deleteBillByCustomerName(String customerName) {
+        try {
+            MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
+            MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
+            Document query = new Document("customerName", customerName);
+
+            collection.deleteOne(query);
+
+            System.out.println("Bill deleted from MongoDB for customer: " + customerName);
+        } catch (Exception e) {
+            System.err.println("Error deleting bill from MongoDB: " + e.getMessage());
+        }
+    }
+    
     public double getTotalAmount() {
         return this.totalAmount;
     }

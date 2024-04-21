@@ -1,5 +1,7 @@
 package service;
 
+import model.Bill;
+import model.Customer;
 import model.Room;
 import java.util.List;
 
@@ -17,8 +19,19 @@ public class RoomService {
     public void checkOut(int roomNumber) {
         Room room = Room.getRoomByNumber(roomNumber);
         if (room != null && room.isBooked()) {
+            // Check out the customer
             room.setBookedStatus(false);
             room.updateRoomStatusInDatabase();
+
+            // Get customer name
+            CustomerService customerService = new CustomerService();
+            Customer customer = customerService.getCustomerByRoomNumber(roomNumber);
+            if (customer != null) {
+                String customerName = customer.getName();
+
+                // Delete bill for the customer from MongoDB
+                Bill.deleteBillByCustomerName(customerName);
+            }
         }
     }
 
