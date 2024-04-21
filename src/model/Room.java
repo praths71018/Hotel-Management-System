@@ -12,7 +12,6 @@ public class Room {
     private String roomType;
     private int price;
     private boolean isBooked;
-
     public Room(int roomNumber, String roomType, int price, boolean isBooked) {
         this.roomNumber = roomNumber;
         this.roomType = roomType;

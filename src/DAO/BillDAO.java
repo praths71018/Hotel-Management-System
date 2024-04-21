@@ -26,5 +26,13 @@ public class BillDAO {
             billCollection.insertOne(bill);
         }
     }
+
+    public static void main(String[] args) {
+        BillDAO billDAO = new BillDAO();
+
+        billDAO.insertBillData();
+
+        System.out.println("Bill data inserted successfully!");
+    }
 }
 

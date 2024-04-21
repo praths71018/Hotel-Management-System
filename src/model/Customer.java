@@ -15,8 +15,6 @@ public class Customer {
         this.roomNumber = roomNumber;
     }
 
-    // Getters and setters
-
     public String getName() {
         return name;
     }

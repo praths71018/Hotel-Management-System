@@ -27,5 +27,16 @@ public class FoodItemDAO {
             foodItemCollection.insertOne(foodItem);
         }
     }
+
+    public static void main(String[] args) {
+        // Instantiate the FoodItemDAO
+        FoodItemDAO foodItemDAO = new FoodItemDAO();
+
+        // Insert food item data into the database
+        foodItemDAO.insertFoodItemData();
+
+        // Display a message indicating successful insertion
+        System.out.println("Food item data inserted successfully!");
+    }
 }
 

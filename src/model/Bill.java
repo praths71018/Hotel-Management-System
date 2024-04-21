@@ -41,6 +41,4 @@ public class Bill {
         return this.customerName;
     }
 
-    // Getters and setters
-    // Omitted for brevity
 }

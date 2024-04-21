@@ -11,6 +11,7 @@ public class Manager {
     private static final String COLLECTION_NAME = "managers";
 
     private static Manager instance;
+
     private MongoCollection<Document> managerCollection;
 
     // Private constructor to prevent instantiation outside this class
@@ -25,13 +26,6 @@ public class Manager {
             instance = new Manager();
         }
         return instance;
-    }
-
-    public void updateInventoryItem(String itemName, int newQuantity) {
-        // Method to update inventory item quantity
-        Document query = new Document("itemName", itemName);
-        Document update = new Document("$set", new Document("quantity", newQuantity));
-        managerCollection.updateOne(query, update);
     }
 
     public void recordComplaint(String receptionistName, String complaint) {

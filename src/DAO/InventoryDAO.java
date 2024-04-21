@@ -27,5 +27,15 @@ public class InventoryDAO {
             inventoryCollection.insertOne(item);
         }
     }
+    public static void main(String[] args) {
+        // Instantiate the InventoryDAO
+        InventoryDAO inventoryDAO = new InventoryDAO();
+
+        // Insert inventory data into the database
+        inventoryDAO.insertInventoryData();
+
+        // Display a message indicating successful insertion
+        System.out.println("Inventory data inserted successfully!");
+    }
 }
 

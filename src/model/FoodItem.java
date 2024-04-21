@@ -70,5 +70,4 @@ public class FoodItem {
     public void setPrice(double price) {
         this.price = price;
     }
-    // Other getters and setters
 }
