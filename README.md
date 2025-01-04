@@ -5,7 +5,7 @@
 
 ## Overview
 
-This project is a Hotel Management System built using Java Swing for the user interface and MongoDB for the database. The system allows users to manage various aspects of hotel operations including room bookings, customer information, and billing.
+This project is a Hotel Management System built using Java Swing for the user interface and MongoDB for the database. The system allows users to manage various aspects of hotel operations including room booking, customer management, and billing.
 
 ## Features
 
@@ -66,7 +66,7 @@ This project is a Hotel Management System built using Java Swing for the user in
 
 1. **Singleton Pattern**:
    - **Used In**: Database Connection Manager
-   - **Description**: Ensures a class has only one instance and provides a global point of access to it. For example, a MongoDB connection manager that ensures only one instance of the database connection is created.
+   - **Description**: Ensures a class has only one instance and provides a global point of access to it. For example, a MongoDB connection manager that ensures only one instance of the database connection is used throughout the application.
    - **Code Example**:
      ```java
      public class MongoDBConnection {
@@ -92,7 +92,7 @@ This project is a Hotel Management System built using Java Swing for the user in
 
 2. **Factory Pattern**:
    - **Used In**: Room Creation
-   - **Description**: Defines an interface for creating an object, but lets subclasses alter the type of objects that will be created. For example, creating different types of rooms (Standard, Deluxe, Suite).
+   - **Description**: Defines an interface for creating an object, but lets subclasses alter the type of objects that will be created. For example, creating different types of rooms (Standard, Deluxe).
    - **Code Example**:
      ```java
      public abstract class RoomFactory {
@@ -150,7 +150,7 @@ This project is a Hotel Management System built using Java Swing for the user in
 
 4. **Observer Pattern**:
    - **Used In**: Notification System
-   - **Description**: Defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically. For example, notifying staff when a room booking is made.
+   - **Description**: Defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically. For example, notifying staff members about new bookings.
    - **Code Example**:
      ```java
      public interface Observer {
@@ -191,7 +191,7 @@ This project is a Hotel Management System built using Java Swing for the user in
 
 5. **Strategy Pattern**:
    - **Used In**: Payment Processing
-   - **Description**: Defines a family of algorithms, encapsulates each one, and makes them interchangeable. The strategy pattern lets the algorithm vary independently from clients that use it. For example, different payment methods like Credit Card and PayPal.
+   - **Description**: Defines a family of algorithms, encapsulates each one, and makes them interchangeable. The strategy pattern lets the algorithm vary independently from clients that use it. For example, different payment methods (Credit Card, PayPal).
    - **Code Example**:
      ```java
      public interface PaymentStrategy {
@@ -227,7 +227,7 @@ This project is a Hotel Management System built using Java Swing for the user in
 
 6. **Chain of Responsibility Pattern**:
    - **Used In**: Request Handling
-   - **Description**: Avoids coupling the sender of a request to its receiver by giving more than one object a chance to handle the request. Chains the receiving objects and passes the request along the chain until an object handles it. For example, handling different types of service requests in a hotel.
+   - **Description**: Avoids coupling the sender of a request to its receiver by giving more than one object a chance to handle the request. Chains the receiving objects and passes the request along the chain until an object handles it. For example, handling different service requests (Room Service, Laundry Service).
    - **Code Example**:
      ```java
      public abstract class ServiceHandler {
@@ -263,6 +263,195 @@ This project is a Hotel Management System built using Java Swing for the user in
      }
      ```
 
+## MVC Design Pattern
+
+### Model-View-Controller (MVC) Design Pattern
+
+**1. Model:**
+The Model represents the data and the business logic of the application. It is responsible for managing the data, processing business logic, and notifying the View of any data changes. In your Hotel Management System, the Model interacts with the MongoDB database to perform CRUD (Create, Read, Update, Delete) operations.
+
+**Example:**
+```java
+public class HotelModel {
+    private String hotelName;
+    private String location;
+    private int numberOfRooms;
+
+    // Getters and Setters for the data fields
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public int getNumberOfRooms() {
+        return numberOfRooms;
+    }
+
+    public void setNumberOfRooms(int numberOfRooms) {
+        this.numberOfRooms = numberOfRooms;
+    }
+
+    // Method to save hotel data to MongoDB
+    public void saveToDatabase() {
+        // MongoDB logic to save data
+    }
+
+    // Method to retrieve hotel data from MongoDB
+    public void loadFromDatabase() {
+        // MongoDB logic to load data
+    }
+}
+```
+
+**2. View:**
+The View is responsible for displaying the data to the user and capturing user input. It represents the user interface of the application. In your Hotel Management System, the View is implemented using Java Swing components to create the graphical user interface (GUI).
+
+**Example:**
+```java
+import javax.swing.*;
+
+public class HotelView {
+    private JFrame frame;
+    private JTextField hotelNameField;
+    private JTextField locationField;
+    private JTextField numberOfRoomsField;
+    private JButton saveButton;
+
+    public HotelView() {
+        frame = new JFrame("Hotel Management System");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+
+        JPanel panel = new JPanel();
+        frame.add(panel);
+        placeComponents(panel);
+
+        frame.setVisible(true);
+    }
+
+    private void placeComponents(JPanel panel) {
+        panel.setLayout(null);
+
+        JLabel hotelNameLabel = new JLabel("Hotel Name:");
+        hotelNameLabel.setBounds(10, 20, 80, 25);
+        panel.add(hotelNameLabel);
+
+        hotelNameField = new JTextField(20);
+        hotelNameField.setBounds(150, 20, 160, 25);
+        panel.add(hotelNameField);
+
+        JLabel locationLabel = new JLabel("Location:");
+        locationLabel.setBounds(10, 50, 80, 25);
+        panel.add(locationLabel);
+
+        locationField = new JTextField(20);
+        locationField.setBounds(150, 50, 160, 25);
+        panel.add(locationField);
+
+        JLabel numberOfRoomsLabel = new JLabel("Number of Rooms:");
+        numberOfRoomsLabel.setBounds(10, 80, 120, 25);
+        panel.add(numberOfRoomsLabel);
+
+        numberOfRoomsField = new JTextField(20);
+        numberOfRoomsField.setBounds(150, 80, 160, 25);
+        panel.add(numberOfRoomsField);
+
+        saveButton = new JButton("Save");
+        saveButton.setBounds(150, 110, 80, 25);
+        panel.add(saveButton);
+    }
+
+    public String getHotelName() {
+        return hotelNameField.getText();
+    }
+
+    public String getLocation() {
+        return locationField.getText();
+    }
+
+    public int getNumberOfRooms() {
+        return Integer.parseInt(numberOfRoomsField.getText());
+    }
+
+    public void addSaveButtonListener(ActionListener listener) {
+        saveButton.addActionListener(listener);
+    }
+
+    public void showMessage(String message) {
+        JOptionPane.showMessageDialog(frame, message);
+    }
+}
+```
+
+**3. Controller:**
+The Controller acts as an intermediary between the Model and the View. It handles user input, updating the Model, and refreshing the View. The Controller receives input from the View, processes it (e.g., validating data), and updates the Model accordingly.
+
+**Example:**
+```java
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class HotelController {
+    private HotelModel model;
+    private HotelView view;
+
+    public HotelController(HotelModel model, HotelView view) {
+        this.model = model;
+        this.view = view;
+
+        // Add action listener to the save button in the view
+        this.view.addSaveButtonListener(new SaveButtonListener());
+    }
+
+    class SaveButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            model.setHotelName(view.getHotelName());
+            model.setLocation(view.getLocation());
+            model.setNumberOfRooms(view.getNumberOfRooms());
+
+            model.saveToDatabase();
+            view.showMessage("Hotel data saved successfully!");
+        }
+    }
+}
+```
+
+### Putting It All Together
+
+To initialize and run your Hotel Management System application, you would create instances of the Model, View, and Controller in a main class and link them together.
+
+**Example:**
+```java
+public class Main {
+    public static void main(String[] args) {
+        HotelModel model = new HotelModel();
+        HotelView view = new HotelView();
+        HotelController controller = new HotelController(model, view);
+    }
+}
+```
+
+### Summary
+
+In summary, the MVC design pattern in your Hotel Management System can be structured as follows:
+- **Model:** Manages the data and business logic (interacts with MongoDB).
+- **View:** Represents the user interface (implemented using Java Swing).
+- **Controller:** Handles user input, updates the Model, and refreshes the View.
+
+This separation of concerns makes the application more modular, easier to maintain, and scalable.
+
 ## Project Structure
 
 - `src/`: Contains the source code for the application.
@@ -281,3 +470,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Contact
 
 For any queries or issues, please contact [praths71018](https://github.com/praths71018).
+```
