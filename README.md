@@ -262,6 +262,67 @@ This project is a Hotel Management System built using Java Swing for the user in
          }
      }
      ```
+7. **Facade Pattern**:
+   - **Used In**: Simplifying Complex Subsystem Interactions
+   - **Description**: Provides a simplified interface to a complex subsystem. The Facade pattern is used when you want to provide a simple interface to a complex system. It hides the complexities of the system and provides an easier way to access the underlying functionality.
+   - **Code Example**:
+     ```java
+     // Facade class to provide a simplified interface for hotel operations
+     public class HotelFacade {
+         private RoomBookingService roomBookingService;
+         private CustomerManagementService customerManagementService;
+         private BillingService billingService;
+
+         public HotelFacade() {
+             roomBookingService = new RoomBookingService();
+             customerManagementService = new CustomerManagementService();
+             billingService = new BillingService();
+         }
+
+         public void bookRoom(String roomType, String customerName) {
+             customerManagementService.addCustomer(customerName);
+             roomBookingService.bookRoom(roomType, customerName);
+             billingService.generateBill(customerName, roomType);
+         }
+
+         public void manageCustomer(String customerName, String action) {
+             switch (action) {
+                 case "add":
+                     customerManagementService.addCustomer(customerName);
+                     break;
+                 case "update":
+                     customerManagementService.updateCustomer(customerName);
+                     break;
+                 case "delete":
+                     customerManagementService.deleteCustomer(customerName);
+                     break;
+                 default:
+                     throw new IllegalArgumentException("Unknown action: " + action);
+             }
+         }
+
+         public void generateBill(String customerName, String roomType) {
+             billingService.generateBill(customerName, roomType);
+         }
+     }
+
+     // Example usage
+     public class Main {
+         public static void main(String[] args) {
+             HotelFacade hotelFacade = new HotelFacade();
+             
+             // Book a room
+             hotelFacade.bookRoom("Deluxe", "John Doe");
+
+             // Manage customer
+             hotelFacade.manageCustomer("John Doe", "add");
+
+             // Generate bill
+             hotelFacade.generateBill("John Doe", "Deluxe");
+         }
+     }
+     ```
+
 
 ## MVC Design Pattern
 
